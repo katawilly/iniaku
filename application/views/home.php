@@ -118,7 +118,7 @@
           <?php for ($i=1; $i < 5; $i++) { ?>
             <div class="col-sm-3 mb-4 mb-md-5">
               <a href="landing-1.html" class="d-block px-xl-3 fade-page text-center">
-                <img src="<?php echo base_url() ?>assets/front/img/layout/style<?php echo $i; ?>.png" alt="Landing 1" class="img-fluid rounded hover-box-shadow">
+                <img src="<?php echo base_url() ?>assets/admin/layouts/style<?php echo $i; ?>.png" alt="Landing 1" class="img-fluid rounded hover-box-shadow">
                 <h6 class="mb-0 mt-2 mt-sm-3">Landing <?php echo $i; ?></h6>
               </a>
             </div>
