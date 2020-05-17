@@ -17,7 +17,22 @@ class Home extends Home_Controller {
         $data['main_content'] = $this->load->view('home', $data, TRUE);
         $this->load->view('index', $data);
     }
+    public function laporan_pdf(){
 
+        $data['users']=array(
+                array('firstname'=>'Agung','lastname'=>'Setiawan','email'=>'ag@setiawan.com'),
+                array('firstname'=>'Hauril','lastname'=>'Maulida Nisfar','email'=>'hm@setiawan.com'),
+                array('firstname'=>'Akhtar','lastname'=>'Setiawan','email'=>'akh@setiawan.com'),
+                array('firstname'=>'Gitarja','lastname'=>'Setiawan','email'=>'git@setiawan.com')
+            );
+        $this->load->library('pdf');
+        $html = $this->load->view('testtt', $data, true);
+        $this->pdf->generate($html,'contoh');
+
+    }
+    function test(){
+        $this->load->view('testtt');
+    }
     //features
     public function features()
     {   
