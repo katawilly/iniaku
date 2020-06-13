@@ -17,17 +17,18 @@ class Home extends Home_Controller {
         $data['main_content'] = $this->load->view('home', $data, TRUE);
         $this->load->view('index', $data);
     }
-    public function laporan_pdf(){
+    public function export(){
 
-        $data['users']=array(
-                array('firstname'=>'Agung','lastname'=>'Setiawan','email'=>'ag@setiawan.com'),
-                array('firstname'=>'Hauril','lastname'=>'Maulida Nisfar','email'=>'hm@setiawan.com'),
-                array('firstname'=>'Akhtar','lastname'=>'Setiawan','email'=>'akh@setiawan.com'),
-                array('firstname'=>'Gitarja','lastname'=>'Setiawan','email'=>'git@setiawan.com')
-            );
-        $this->load->library('pdf');
-        $html = $this->load->view('testtt', $data, true);
-        $this->pdf->generate($html,'contoh');
+        
+        $this->load->library('test');
+        $this->test->generate('asd');
+        // $html = $this->load->view('admin/cv/design_1', '', true);
+        // $html = str_replace("\n", "", $html);
+        // $html = str_replace("\r", "", $html);
+        // $html = str_replace("\t", "", $html);
+        // $html = trim(preg_replace( '/>\s+</', '><', $html )); 
+        
+        // $this->pdf->generate($html,'contoh');
 
     }
     function test(){

@@ -28,9 +28,12 @@ class Pay extends CI_Controller {
         // header("Access-Control-Allow-Headers: Origin,X-Requested-With,Content-Type,Accept");
         $params = array('server_key' => 'SB-Mid-server-05bQ1gLAFGrCGNQHw9C5uX7_', 'production' => false);
 		$this->load->library('midtrans');
+		$this->load->library('veritrans');
 		$this->midtrans->config($params);
+		$this->veritrans->config($params);
 		$this->load->helper('url');	
     }
+
     public function notifikasi()
 	{
 		echo 'test notification handler';
@@ -100,13 +103,13 @@ class Pay extends CI_Controller {
 		// Required
 		$transaction_details = array(
 		  'order_id' => $order_id,
-		  'gross_amount' => 10000 // no decimal allowed for creditcard
+		  'gross_amount' => 15000 // no decimal allowed for creditcard
 		);
 
 		// Optional
 		$item1_details = array(
 		  'id' => '1',
-		  'price' => 10000,
+		  'price' => 15000,
 		  'quantity' => 1,
 		  'name' => "Pembayaran Aktivasi Akun Pro Iniaku.me"
 		);
@@ -171,7 +174,71 @@ class Pay extends CI_Controller {
 		error_log($snapToken);
 		echo $snapToken;
     }
+    public function vtweb_checkout()
+	{
+		$order_id = rand();
+		// Required
+		$transaction_details = array(
+		  'order_id' => $order_id,
+		  'gross_amount' => 15000 // no decimal allowed for creditcard
+		);
 
+		// Optional
+		$item1_details = array(
+		  'id' => '1',
+		  'price' => 15000,
+		  'quantity' => 1,
+		  'name' => "Pembayaran Aktivasi Akun Pro Iniaku.me"
+		);
+
+		// Optional
+		$item_details = array ($item1_details);
+
+		// Populate customer's billing address
+		$billing_address = array(
+		  'first_name'    => $this->session->name,
+		  'last_name'     => "",
+		  'address'       => $this->session->address,
+		  'city'          => $this->session->kabupaten,
+		  'postal_code'   => $this->session->kodepos,
+		  'phone'         => $this->session->phone,
+		  'country_code'  => 'IDN'
+		);
+
+
+		// Optional
+		$customer_details = array(
+		  'first_name'    =>$this->session->name,
+		  'last_name'     => "",
+		  'email'         => $this->session->email,
+		  'phone'         => $this->session->phone,
+		  'billing_address'  => $billing_address
+		);
+
+		// Data yang akan dikirim untuk request redirect_url.
+		// Uncomment 'credit_card_3d_secure' => true jika transaksi ingin diproses dengan 3DSecure.
+		$transaction_data = array(
+			'payment_type' 			=> 'vtweb', 
+			'vtweb' 						=> array(
+				//'enabled_payments' 	=> ['credit_card'],
+				'credit_card_3d_secure' => true
+			),
+			'transaction_details'=> $transaction_details,
+			'item_details' 			 => $item_details,
+			'customer_details' 	 => $customer_details
+		);
+	
+		try
+		{
+			$vtweb_url = $this->veritrans->vtweb_charge($transaction_data);
+			header('Location: ' . $vtweb_url);
+		} 
+		catch (Exception $e) 
+		{
+    		echo $e->getMessage();	
+		}
+		
+	}
     public function finish()
     {
     	echo 1;
